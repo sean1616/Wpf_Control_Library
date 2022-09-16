@@ -46,7 +46,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Button_Icon_Only.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RecGauge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Text_Button.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -58,22 +65,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControl1.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="Button_Icon_Only.xaml.cs">
+      <DependentUpon>Button_Icon_Only.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RecGauge.xaml.cs">
       <DependentUpon>RecGauge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Text_Button.xaml.cs">
+      <DependentUpon>Text_Button.xaml</DependentUpon>
     </Compile>
     <Compile Include="Text_TextBox.xaml.cs">
       <DependentUpon>Text_TextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Text_ToggleButton.xaml.cs">
       <DependentUpon>Text_ToggleButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControl1.xaml.cs">
-      <DependentUpon>UserControl1.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

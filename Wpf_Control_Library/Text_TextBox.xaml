@@ -7,7 +7,7 @@
              MouseEnter="userControl_MouseEnter"
              MouseLeave="userControl_MouseLeave"
              mc:Ignorable="d"              
-             d:DesignHeight="100" d:DesignWidth="500">
+             d:DesignHeight="50" d:DesignWidth="200">
     <Grid Name="grid_background"
           Focusable="False"
           Background="Transparent">
@@ -41,7 +41,7 @@
                  KeyDown="textBox_KeyDown"
                  GotFocus="textBox_GotFocus"
                  LostFocus="textBox_LostFocus"
-                 Text="{Binding txtbox_value, UpdateSourceTrigger=PropertyChanged ,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_TextBox}}}" />
+                 Text="{Binding txtbox_value, FallbackValue=0, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_TextBox}}}" />
 
     </Grid>
 </UserControl>
