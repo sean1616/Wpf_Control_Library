@@ -9,6 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="80" d:DesignWidth="500">
     <UserControl.Resources>
+        
         <Style x:Key="ButtonFocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -22,6 +23,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <LinearGradientBrush x:Key="ButtonNormalBackground"
                              EndPoint="0,1"
                              StartPoint="0,0">
@@ -34,6 +36,7 @@
             <GradientStop Color="#CDCDCD"
                           Offset="1" />
         </LinearGradientBrush>
+        
         <SolidColorBrush x:Key="ButtonNormalBorder"
                          Color="#FF707070" />
 

@@ -46,10 +46,23 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TextBox_Only.xaml.cs">
+      <DependentUpon>TextBox_Only.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC_ComboBox.xaml.cs">
+      <DependentUpon>UC_ComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Mix.xaml.cs">
+      <DependentUpon>UserControl_Mix.xaml</DependentUpon>
+    </Compile>
     <Page Include="Button_Icon_Only.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RecGauge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TextBox_Only.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -80,6 +93,14 @@
     <Compile Include="Text_ToggleButton.xaml.cs">
       <DependentUpon>Text_ToggleButton.xaml</DependentUpon>
     </Compile>
+    <Page Include="UC_ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl_Mix.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
