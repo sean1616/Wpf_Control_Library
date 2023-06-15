@@ -28,7 +28,6 @@ namespace Wpf_Control_Library
 
         #region 定義相依屬性     
 
-
         public static readonly DependencyProperty txtbox_content_Property =
                     DependencyProperty.Register("txtbox_content", typeof(string), typeof(UserControl_Mix),
                     new UIPropertyMetadata(null));
@@ -47,6 +46,16 @@ namespace Wpf_Control_Library
         {
             get { return (string)GetValue(txtbox_value_Property); }
             set { SetValue(txtbox_value_Property, value); }
+        }
+
+        public static readonly DependencyProperty Lable_Foreground_Property =
+                 DependencyProperty.Register("Lable_Foreground", typeof(SolidColorBrush), typeof(UserControl_Mix),
+                 new UIPropertyMetadata(new SolidColorBrush(Colors.Black), null));
+
+        public SolidColorBrush Lable_Foreground //提供內部binding之相依屬性
+        {
+            get { return (SolidColorBrush)GetValue(Lable_Foreground_Property); }
+            set { SetValue(Lable_Foreground_Property, value); }
         }
 
         public static readonly DependencyProperty Border_Background_MouseEnter_Property =
@@ -113,6 +122,17 @@ namespace Wpf_Control_Library
         {
             get { return (string)GetValue(SelectedItem_Property); }
             set { SetValue(SelectedItem_Property, value); }
+        }
+
+
+        public static readonly DependencyProperty cbx_HorizontalContentAlignment_Property =
+                  DependencyProperty.Register("cbx_HorizontalContentAlignment", typeof(HorizontalAlignment), typeof(UserControl_Mix),
+                  new UIPropertyMetadata(HorizontalAlignment.Left, null));
+
+        public HorizontalAlignment cbx_HorizontalContentAlignment //提供內部binding之相依屬性
+        {
+            get { return (HorizontalAlignment)GetValue(cbx_HorizontalContentAlignment_Property); }
+            set { SetValue(cbx_HorizontalContentAlignment_Property, value); }
         }
         #endregion
 
@@ -314,8 +334,29 @@ namespace Wpf_Control_Library
         }
 
 
+
         #endregion
 
-       
+
+        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var obj = sender as ListBox;
+
+            if (obj == null) return;
+
+            cbx_Main.IsDropDownOpen = false;
+            //cbx_Main.SelectedItem = obj.SelectedItem;
+            //MessageBox.Show(cbx_Main.SelectedItem.ToString());
+        }
+
+        private void listBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var obj = sender as ListBox;
+
+            if (obj == null) return;
+
+            cbx_Main.IsDropDownOpen = false;
+            //MessageBox.Show(cbx_Main.SelectedItem.ToString());
+        }
     }
 }

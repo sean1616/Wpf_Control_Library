@@ -73,8 +73,9 @@ namespace Wpf_Control_Library
         {
             ComBox_DropDownClosed(sender, e);
         }
+
         #endregion
 
-
+       
     }
 }

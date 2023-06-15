@@ -196,14 +196,15 @@
     <Grid>
         <ComboBox x:Name="cbo"
                   Grid.Row="2"
-            Grid.Column="1"
-            DropDownOpened="ComBox_DropDownOpened"
-            DropDownClosed="ComBox_DropDownClosed"
-            Background="Transparent"
-            ItemsSource="{Binding ItemSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_ComboBox}}}"
-            SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_ComboBox}}}"
-            SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_ComboBox}}}"
-            Height="{Binding ActualHeight, ElementName=ComBox_Cell_Base, Mode=OneWay}"
-            Style="{StaticResource style_combobox_black}"/>
+                  Grid.Column="1"
+                  DropDownOpened="ComBox_DropDownOpened"
+                  DropDownClosed="ComBox_DropDownClosed"
+                  Background="Transparent"
+                  ItemsSource="{Binding ItemSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_ComboBox}}}"
+                  SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_ComboBox}}}"
+                  SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UC_ComboBox}}}"
+                  Height="{Binding ActualHeight, ElementName=ComBox_Cell_Base, Mode=OneWay}"
+                  Style="{StaticResource style_combobox_black}">
+        </ComboBox>
     </Grid>
 </UserControl>

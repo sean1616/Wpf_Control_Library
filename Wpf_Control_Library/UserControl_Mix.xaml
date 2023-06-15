@@ -14,11 +14,12 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="Border_Background.MouseOver.Border"
                          Color="#FFD8F3E3" />
-
         <SolidColorBrush x:Key="TextBox.Static.Border"
                          Color="#FFABAdB3" />
         <SolidColorBrush x:Key="TextBox.MouseOver.Border"
                          Color="#FF757679" />
+        <SolidColorBrush x:Key="TextBox.MouseOver.Fordground"
+                         Color="Black" />
         <SolidColorBrush x:Key="TextBox.Focus.Border"
                          Color="#FF569DE5" />
 
@@ -208,8 +209,6 @@
 
         <Style x:Key="style_FuncToggleBtn"
                TargetType="{x:Type ToggleButton}">
-            <Setter Property="FontFamily"
-                    Value="Segoe Print" />
             <Setter Property="Tag"
                     Value="" />
             <Setter Property="Foreground"
@@ -242,7 +241,6 @@
                             </Viewbox>
                             <Viewbox Grid.Row="1"
                                      Grid.Column="1"
-                                     HorizontalAlignment="Left"
                                      VerticalAlignment="Center">
                                 <ContentPresenter x:Name="contentPresenter"
                                                   Focusable="False"
@@ -274,8 +272,6 @@
                     Value="" />
             <Setter Property="BorderBrush"
                     Value="Gray" />
-            <Setter Property="Background"
-                    Value="White" />
             <Setter Property="SnapsToDevicePixels"
                     Value="true" />
             <Setter Property="OverridesDefaultStyle"
@@ -286,8 +282,6 @@
                     Value="Auto" />
             <Setter Property="ScrollViewer.CanContentScroll"
                     Value="true" />
-            <Setter Property="FontFamily"
-                    Value="Segoe Print" />
             <Setter Property="MinWidth"
                     Value="50" />
             <Setter Property="MinHeight"
@@ -296,21 +290,13 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBox}">
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition Height="4*" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.08*" />
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="0.45*" />
-                                <ColumnDefinition Width="0.04*" />
+                                <ColumnDefinition Width="0.09*" />
+                                <ColumnDefinition Width="1.49*" />
+                                <ColumnDefinition Width="0.09*" />
                             </Grid.ColumnDefinitions>
                             <ToggleButton x:Name="ToggleButton"
-                                          Grid.Row="0"
-                                          Grid.RowSpan="3"
-                                          Grid.ColumnSpan="4"
+                                          Grid.ColumnSpan="3"
                                           Background="{TemplateBinding Background}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           ClickMode="Press"
@@ -319,20 +305,18 @@
                                           IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource style_FuncToggleBtn}" />
                             <ContentPresenter x:Name="ContentSite"
-                                              Grid.Row="0"
-                                              Grid.RowSpan="3"
-                                              Grid.Column="1"
-                                              HorizontalAlignment="Left"
                                               VerticalAlignment="Center"
+                                              Grid.Column="1" 
                                               Content="{TemplateBinding SelectionBoxItem}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                               IsHitTestVisible="False"
                                               TextBlock.FontSize="14"
-                                              TextBlock.Foreground="Black" />
+                                              TextBlock.Foreground="{TemplateBinding Foreground}" />
                             <Popup x:Name="Popup"
                                    AllowsTransparency="True"
-                                   Focusable="False"
+                                   StaysOpen="False"
                                    IsOpen="{TemplateBinding IsDropDownOpen}"
                                    Placement="Bottom"
                                    PopupAnimation="Slide">
@@ -343,11 +327,28 @@
                                     <Border x:Name="DropDownBorder"
                                             Background="White"
                                             BorderBrush="Gray"
-                                            BorderThickness="2" />
+                                            BorderThickness="1" />
+                                    <!--<ListBox x:Name="listBox" ItemsSource="{TemplateBinding ItemsSource}"
+                                             Background="#FFEFEFEF"
+                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                             SelectionChanged="listBox_SelectionChanged"
+                                             PreviewMouseDown="listBox_PreviewMouseDown"
+                                             SelectionMode="Single"
+                                             KeyboardNavigation.DirectionalNavigation="Contained"
+                                             BorderBrush="{x:Null}">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="Padding"
+                                                        Value="10" />
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>-->
+
                                     <ScrollViewer Margin="4,6,4,6"
                                                   SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True"
-                                                    KeyboardNavigation.DirectionalNavigation="Contained" />
+                                        <StackPanel IsItemsHost="True" 
+                                                    KeyboardNavigation.DirectionalNavigation="Contained">
+                                        </StackPanel>
                                     </ScrollViewer>
                                 </Grid>
                             </Popup>
@@ -384,6 +385,48 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PopupContentStyle"
+               TargetType="{x:Type ContentControl}">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid Width="Auto"
+                              Height="Auto"
+                              Background="Gray">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="2"
+                                    CornerRadius="8"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Grid.RowSpan="2">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="Gray" />
+                                </Border.BorderBrush>
+                                <Border.Background>
+                                    <SolidColorBrush Color="White" />
+                                </Border.Background>
+                            </Border>
+
+                            <StackPanel Grid.Row="0">
+                                <Label Foreground="Blue"
+                                       Content="Popup_Title" />
+                            </StackPanel>
+
+                            <GroupBox Grid.Row="1"
+                                      Header="Popup example content">
+                                <StackPanel>
+                                    <ContentPresenter />
+                                </StackPanel>
+                            </GroupBox>
+                        </Grid>
+                    </DataTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -653,6 +696,11 @@
                 <!--Text_Textbox-->
                 <Grid Name="grid_Text_TextBox"
                       Visibility="{Binding UC_Text_Textbox_Visibility,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="3*" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.08*" />
                         <ColumnDefinition />
@@ -661,22 +709,26 @@
                     </Grid.ColumnDefinitions>
                     <Border Focusable="False"
                             Grid.Column="0"
-                            Grid.ColumnSpan="4" />
-                    <TextBlock Grid.Row="3"
+                            Grid.ColumnSpan="4"
+                            Grid.RowSpan="3" />
+                    <TextBlock Grid.Row="1"
                                Grid.Column="1"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
                                FontSize="14"
                                Focusable="False"
+                               Foreground="{Binding Lable_Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                FontFamily="{Binding FontFamily, FallbackValue=Segoe Print, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                Text="{Binding txtbox_content, FallbackValue=Center X, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}" />
                     <TextBox x:Name="textBox"
                              Focusable="True"
-                             Grid.Row="3"
+                             Grid.Row="1"
                              Grid.Column="2"
                              HorizontalAlignment="Stretch"
-                             VerticalAlignment="Center"
                              HorizontalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             MinHeight="30"
+                             MaxHeight="40"
                              FontSize="13"
                              FontFamily="{Binding FontFamily, FallbackValue=Segoe Print, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                              KeyDown="textBox_KeyDown"
@@ -688,6 +740,11 @@
                 <!--Text_Button-->
                 <Grid Name="grid_Text_Button"
                       Visibility="{Binding UC_Text_Button_Visibility, FallbackValue=Collapsed,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="3*" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.08*" />
                         <ColumnDefinition />
@@ -696,19 +753,23 @@
                     </Grid.ColumnDefinitions>
                     <Border Focusable="False"
                             Grid.Column="0"
+                            Grid.Row="1"
                             Background="Transparent"
                             Grid.ColumnSpan="4" />
                     <TextBlock Name="txtblock"
                                Grid.Column="1"
+                               Grid.Row="1"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontFamily="Segoe Print"
+                               FontFamily="{Binding FontFamily, FallbackValue=Segoe Print, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                FontSize="14"
+                               Foreground="{Binding Lable_Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                Text="{Binding txtbox_content,FallbackValue=Center X, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}">
                     </TextBlock>
 
                     <TextBox x:Name="txt_base"
                              Grid.Column="2"
+                             Grid.Row="1"
                              VerticalAlignment="Center"
                              Visibility="Hidden"
                              IsEnabled="False" />
@@ -716,8 +777,11 @@
                     <Button x:Name="button"
                             Style="{DynamicResource ButtonStyle1}"
                             Grid.Column="2"
+                            Grid.Row="1"
                             Click="Text_Button_Click_Binding"
                             MaxHeight="40"
+                            MaxWidth="80"
+                            FontFamily="{Binding FontFamily, FallbackValue=Segoe Print, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                             Height="{Binding ActualHeight, ElementName=txt_base, Mode=OneWay}"
                             RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
@@ -733,15 +797,20 @@
                 </Grid>
 
                 <!--ComboBox-->
-                <Grid Visibility="{Binding UC_ComboBox_Visibility, FallbackValue=Collapsed,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}">
-                    <ComboBox Grid.Row="2"
+                <Grid 
+                      Visibility="{Binding UC_ComboBox_Visibility, FallbackValue=Collapsed,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}">
+                    <ComboBox x:Name="cbx_Main"
+                              Grid.Row="1"
                               Grid.Column="1"
                               DropDownOpened="ComBox_DropDownOpened_Binding"
                               DropDownClosed="ComBox_DropDownClosed_Binding"
-                              Background="Transparent"
+                              HorizontalContentAlignment="{Binding cbx_HorizontalContentAlignment,FallbackValue=Left, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
+                              Background="{Binding Background,TargetNullValue={x:Static Brushes.White}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
+                              FontFamily="{Binding FontFamily, FallbackValue=Segoe Print, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
+                              Foreground="{Binding Foreground, TargetNullValue={x:Static Brushes.Black}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                               ItemsSource="{Binding ItemSource, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
-                              SelectedIndex="{Binding SelectedIndex,Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
-                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
+                              SelectedIndex="{Binding SelectedIndex,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
+                              SelectedItem="{Binding SelectedItem, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                               Style="{StaticResource style_combobox_black}" />
                 </Grid>
 
@@ -777,6 +846,7 @@
                                       FocusVisualStyle="{x:Null}"
                                       KeyboardNavigation.TabNavigation="None"
                                       KeyboardNavigation.IsTabStop="False"
+                                      FontFamily="{Binding FontFamily, FallbackValue=Segoe Print, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                       IsChecked="{Binding ToggleButton_IsChecked,Mode=TwoWay,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                       Style="{DynamicResource SwitchTypeToggleButton_In_SettingPage}"
                                       Grid.Row="1" />
