@@ -32,7 +32,7 @@ namespace Wpf_Control_Library
 
         public static readonly DependencyProperty txtbox_value_Property =
                     DependencyProperty.Register("txtbox_value", typeof(string), typeof(Text_TextBox),
-                    new UIPropertyMetadata(null));
+                    new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
 
         public static readonly DependencyProperty border_Background_Property =
                    DependencyProperty.Register("border_Background", typeof(SolidColorBrush), typeof(Text_TextBox),

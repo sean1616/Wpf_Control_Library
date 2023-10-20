@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="Wpf_Control_Library.GooIconButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:AduSkin="clr-namespace:AduSkin.Controls.Metro;assembly=AduSkin"
+             xmlns:local="clr-namespace:Wpf_Control_Library"
+             Style="{DynamicResource style_Root}"
+             mc:Ignorable="d"              
+             d:DesignHeight="80" d:DesignWidth="80"
+             Background="White">
+
+    <!--透過設計空白樣板來取消Usercontrol的Background等預設屬性-->
+    <UserControl.Resources>
+        <Style x:Key="style_Root"
+               TargetType="{x:Type UserControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type UserControl}">
+                        <!--空白樣板-->
+                        <!--<ContentPresenter />-->
+                        
+                        <!--修改Usercontrol為Button，並再另外設計Button的樣板-->
+                        <Button x:Name="btn" Style="{DynamicResource style_GooIconButton}" Background="{TemplateBinding Background}"
+                                Click="BTN_Click">
+                            <metro:PackIconBootstrapIcons x:Name="metroIcon"
+                                                          Kind="{Binding IconName, FallbackValue=dash, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}"
+                                                          Foreground="{Binding IconColor, FallbackValue=Black, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}"
+                                                          HorizontalContentAlignment="{Binding HorizontalIconAlignment, FallbackValue=Stretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}"
+                                                          VerticalContentAlignment="{Binding VerticalIconAlignment, FallbackValue=Stretch, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}"/>
+
+                        </Button>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="btn"
+                                        Property="Background"
+                                        Value="{Binding Background_MouseOver, FallbackValue=White, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}" />
+                                <Setter TargetName="metroIcon"
+                                        Property="Foreground"
+                                        Value="{Binding IconColor_MouseOver, FallbackValue=White, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}" />
+                            </Trigger>
+                            <Trigger Property="Button.IsPressed"
+                                     Value="True">
+                                <Setter TargetName="btn"
+                                        Property="Background"
+                                        Value="#FFC7C7C7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Button的設計樣版-->
+        <Style x:Key="style_GooIconButton"
+               TargetType="{x:Type Button}">
+            <Setter Property="Tag"
+                    Value="" />
+            <Setter Property="FocusVisualStyle"
+                    Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="3*" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border x:Name="border"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Grid.ColumnSpan="3"
+                                    CornerRadius="{Binding CornerRadius, FallbackValue=10, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}"
+                                    Background="{TemplateBinding Background}" />
+
+                            <Viewbox Grid.Row="1"
+                                     Grid.Column="1">
+                                <ContentPresenter />
+                            </Viewbox>
+
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+
+    <!--<Button Style="{DynamicResource style_GooIconButton}"
+            Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}"
+            Padding="5"
+            Click="BTN_Click">
+        <metro:PackIconBootstrapIcons Kind="{Binding IconName, FallbackValue=Stack, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}"
+                                      Foreground="{Binding IconColor, FallbackValue=Black, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GooIconButton}}}" />
+    </Button>-->
+</UserControl>

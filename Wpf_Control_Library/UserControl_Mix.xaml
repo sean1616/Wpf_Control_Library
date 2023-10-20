@@ -72,12 +72,11 @@
                                         TargetName="border"
                                         Value="{StaticResource TextBox.MouseOver.Border}" />
                             </Trigger>
-                            <!--<Trigger Property="IsMouseOver"
-                                 Value="True">
-                                <Setter TargetName="border"
-                                    Property="Background"
-                                    Value="{StaticResource TextBox.MouseOver.Border}"
-                                     />
+                            <!--<Trigger Property="IsKeyboardFocused"
+                                     Value="False">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
                             </Trigger>-->
                             <Trigger Property="IsKeyboardFocused"
                                      Value="true">
@@ -225,41 +224,53 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.8*" />
-                                <ColumnDefinition Width="2*" />
+                                <!--<ColumnDefinition Width="0.8*" />
+                                <ColumnDefinition Width="2*" />-->
+                                <ColumnDefinition Width="0.08*" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="0.45*" />
+                                <ColumnDefinition Width="0.04*" />
                             </Grid.ColumnDefinitions>
                             <Border x:Name="border"
                                     Grid.Row="0"
                                     Grid.RowSpan="3"
                                     Grid.Column="0"
-                                    Grid.ColumnSpan="3"
+                                    Grid.ColumnSpan="4"
                                     Background="{TemplateBinding Background}" />
                             <Viewbox Grid.Row="1"
                                      Grid.Column="0">
                                 <Image HorizontalAlignment="Center"
                                        Source="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Viewbox>
-                            <Viewbox Grid.Row="1"
-                                     Grid.Column="1"
-                                     VerticalAlignment="Center">
-                                <ContentPresenter x:Name="contentPresenter"
-                                                  Focusable="False"
-                                                  SnapsToDevicePixels="True" />
-                            </Viewbox>
+                            <ContentPresenter x:Name="contentPresenter"
+                                              Focusable="False"
+                                              Grid.Row="1"
+                                              Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              TextBlock.FontSize="14"
+                                              TextBlock.Foreground="Gray"
+                                              SnapsToDevicePixels="True" />
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver"
-                                     Value="True">
-                                <Setter TargetName="border"
-                                        Property="Background"
-                                        Value="{StaticResource Border_Background.MouseOver.Border}" />
-                            </Trigger>
                             <Trigger Property="IsChecked"
                                      Value="True">
                                 <Setter TargetName="border"
                                         Property="Background"
                                         Value="#FFA8E8E8" />
                             </Trigger>
+                            <!--<Trigger Property="IsChecked"
+                                     Value="False">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="{StaticResource Border_Background.MouseOver.Border}" />
+                            </Trigger>-->
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="{StaticResource Border_Background.MouseOver.Border}" />
+                            </Trigger>
+                          
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -268,8 +279,8 @@
 
         <Style x:Key="style_combobox_black"
                TargetType="{x:Type ComboBox}">
-            <Setter Property="Tag"
-                    Value="" />
+            <!--<Setter Property="Tag"
+                    Value="" />-->
             <Setter Property="BorderBrush"
                     Value="Gray" />
             <Setter Property="SnapsToDevicePixels"
@@ -301,12 +312,13 @@
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           ClickMode="Press"
                                           Focusable="false"
+                                          Content="{Binding UC_WaterMark, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                           Foreground="{TemplateBinding Foreground}"
                                           IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           Style="{StaticResource style_FuncToggleBtn}" />
                             <ContentPresenter x:Name="ContentSite"
                                               VerticalAlignment="Center"
-                                              Grid.Column="1" 
+                                              Grid.Column="1"
                                               Content="{TemplateBinding SelectionBoxItem}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
@@ -314,6 +326,7 @@
                                               IsHitTestVisible="False"
                                               TextBlock.FontSize="14"
                                               TextBlock.Foreground="{TemplateBinding Foreground}" />
+                           
                             <Popup x:Name="Popup"
                                    AllowsTransparency="True"
                                    StaysOpen="False"
@@ -374,6 +387,9 @@
                                 <Setter TargetName="DropDownBorder"
                                         Property="Margin"
                                         Value="0,2,0,0" />
+                                <!--<Setter TargetName="ToggleButton"
+                                        Property="Content"
+                                        Value="" />-->
                             </Trigger>
                             <Trigger Property="IsEditable"
                                      Value="true">
@@ -729,6 +745,7 @@
                              VerticalContentAlignment="Center"
                              MinHeight="30"
                              MaxHeight="40"
+                             LostFocus="textBox_LostFocus"
                              FontSize="13"
                              FontFamily="{Binding FontFamily, FallbackValue=Segoe Print, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                              KeyDown="textBox_KeyDown"
@@ -798,7 +815,8 @@
 
                 <!--ComboBox-->
                 <Grid 
-                      Visibility="{Binding UC_ComboBox_Visibility, FallbackValue=Collapsed,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}">
+                      Visibility="{Binding UC_ComboBox_Visibility, FallbackValue=Collapsed,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
+                    >
                     <ComboBox x:Name="cbx_Main"
                               Grid.Row="1"
                               Grid.Column="1"
@@ -846,6 +864,9 @@
                                       FocusVisualStyle="{x:Null}"
                                       KeyboardNavigation.TabNavigation="None"
                                       KeyboardNavigation.IsTabStop="False"
+                                      Click="ToggleButton_Click_Binding"
+                                      Checked="ToggleButton_Checked_Binding"
+                                      Unchecked="ToggleButton_UnChecked_Binding"
                                       FontFamily="{Binding FontFamily, FallbackValue=Segoe Print, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                       IsChecked="{Binding ToggleButton_IsChecked,Mode=TwoWay,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserControl_Mix}}}"
                                       Style="{DynamicResource SwitchTypeToggleButton_In_SettingPage}"

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 
-81409646296
+1162409822
 
-12-1818930879
-11-163216742
-Button_Icon_Only.xaml;RecGauge.xaml;TextBox_Only.xaml;Text_Button.xaml;Text_TextBox.xaml;Text_ToggleButton.xaml;UC_ComboBox.xaml;UserControl_Mix.xaml;
+15-214621805
+471238515788
+Button_Icon_Only.xaml;GooIconButton.xaml;GooSlider.xaml;RangeSlider.xaml;RecGauge.xaml;TextBox_Only.xaml;Text_Button.xaml;Text_TextBox.xaml;Text_ToggleButton.xaml;UC_ComboBox.xaml;UserControl_Mix.xaml;
 
 False
 

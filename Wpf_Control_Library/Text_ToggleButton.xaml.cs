@@ -77,5 +77,23 @@ namespace Wpf_Control_Library
             border_background.Background = Brushes.Transparent;
             //border_background.Background = TBtn_Auto_Connect_TLS.IsFocused ? border_Background : Brushes.Transparent;
         }
+
+        public event RoutedEventHandler Click = delegate { };  //提供外部操作事件參數
+        private void ToggleButton_Click_Binding(object sender, RoutedEventArgs e)
+        {
+            Click(sender, e);
+        }
+
+        public event RoutedEventHandler Checked = delegate { };  //提供外部操作事件參數
+        private void ToggleButton_Checked_Binding(object sender, RoutedEventArgs e)
+        {
+            Checked(sender, e);
+        }
+
+        public event RoutedEventHandler UnChecked = delegate { };  //提供外部操作事件參數
+        private void ToggleButton_UnChecked_Binding(object sender, RoutedEventArgs e)
+        {
+            UnChecked(sender, e);
+        }
     }
 }
