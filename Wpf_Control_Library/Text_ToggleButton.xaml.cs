@@ -14,6 +14,17 @@ using System.Windows.Shapes;
 
 namespace Wpf_Control_Library
 {
+    public static class CustomToggleButtonProperties
+    {
+        public static readonly DependencyProperty ToggleBTN_True_Main_Color_Property =
+            DependencyProperty.RegisterAttached("SwitchColor_True_Main", typeof(SolidColorBrush), typeof(CustomToggleButtonProperties), new PropertyMetadata(null));
+
+        public static void SetToggleButton_MainTrueColor(System.Windows.UIElement element, string value)
+        {
+            element.SetValue(ToggleBTN_True_Main_Color_Property, value);
+        }
+    }
+
     /// <summary>
     /// Interaction logic for Text_ToggleButton.xaml
     /// </summary>
@@ -41,6 +52,37 @@ namespace Wpf_Control_Library
                   DependencyProperty.Register("border_Background", typeof(SolidColorBrush), typeof(Text_ToggleButton),
                   new UIPropertyMetadata(null));
 
+        public static readonly DependencyProperty SwitchColor_True_Background_Property =
+                 DependencyProperty.Register("SwitchColor_True_Background", typeof(SolidColorBrush), typeof(UserControl_Mix),
+                 new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(25, 86, 97)), null));
+
+        public SolidColorBrush SwitchColor_True_Background //提供內部binding之相依屬性
+        {
+            get { return (SolidColorBrush)GetValue(SwitchColor_True_Background_Property); }
+            set { SetValue(SwitchColor_True_Background_Property, value); }
+        }
+
+        public static readonly DependencyProperty SwitchColor_True_Property =
+                 DependencyProperty.Register("SwitchColor_True", typeof(SolidColorBrush), typeof(UserControl_Mix),
+                 new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(255, 255, 255)), null));
+
+        public SolidColorBrush SwitchColor_True //提供內部binding之相依屬性
+        {
+            get { return (SolidColorBrush)GetValue(SwitchColor_True_Property); }
+            set { SetValue(SwitchColor_True_Property, value); }
+        }
+
+        public static readonly DependencyProperty SwitchColor_False_Property =
+                DependencyProperty.Register("SwitchColor_False", typeof(SolidColorBrush), typeof(UserControl_Mix),
+                new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(90, 90, 90)), null));
+
+        public SolidColorBrush SwitchColor_False //提供內部binding之相依屬性
+        {
+            get { return (SolidColorBrush)GetValue(SwitchColor_False_Property); }
+            set { SetValue(SwitchColor_False_Property, value); }
+        }
+
+
         public string txtbox_content //提供內部binding之相依屬性
         {
             get { return (string)GetValue(txtbox_content_Property); }
@@ -52,6 +94,10 @@ namespace Wpf_Control_Library
             get { return (bool)GetValue(Ischecked_Property); }
             set { SetValue(Ischecked_Property, value); }
         }
+
+       
+
+       
 
         //public string txtbox_FontFamily //提供內部binding之相依屬性
         //{
