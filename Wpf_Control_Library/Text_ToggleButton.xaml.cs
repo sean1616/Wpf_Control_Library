@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -22,6 +23,63 @@ namespace Wpf_Control_Library
         public static void SetToggleButton_MainTrueColor(System.Windows.UIElement element, string value)
         {
             element.SetValue(ToggleBTN_True_Main_Color_Property, value);
+        }
+    }
+
+    public class AdjustableMinusConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //if (value is double doubleValue && parameter is double subtractValue)
+            //{
+            //    return doubleValue - subtractValue;
+            //}
+
+            if (double.TryParse(value.ToString(), out double doubleValue) && double.TryParse(parameter.ToString(), out double subValue))
+            {
+                return doubleValue - subValue;
+            }
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class SwitchMarginConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (double.TryParse(value.ToString(), out double subValue))
+            {
+                return new Thickness(subValue, 0, subValue, 0);
+            }
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class SwitchCircleSizeConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (double.TryParse(values[0].ToString(), out double sizeValue) && double.TryParse(values[1].ToString(), out double subValue))
+            {
+                return sizeValue - subValue;
+            }
+
+            return values[0];
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -52,18 +110,38 @@ namespace Wpf_Control_Library
                   DependencyProperty.Register("border_Background", typeof(SolidColorBrush), typeof(Text_ToggleButton),
                   new UIPropertyMetadata(null));
 
-        public static readonly DependencyProperty SwitchColor_True_Background_Property =
-                 DependencyProperty.Register("SwitchColor_True_Background", typeof(SolidColorBrush), typeof(UserControl_Mix),
-                 new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(25, 86, 97)), null));
+        public static readonly DependencyProperty SwitchColor_Background_Property =
+               DependencyProperty.Register("SwitchColor_Background", typeof(SolidColorBrush), typeof(Text_ToggleButton),
+               new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(150, 150, 150)), null));
 
-        public SolidColorBrush SwitchColor_True_Background //提供內部binding之相依屬性
+        public SolidColorBrush SwitchColor_Background //提供內部binding之相依屬性
         {
-            get { return (SolidColorBrush)GetValue(SwitchColor_True_Background_Property); }
-            set { SetValue(SwitchColor_True_Background_Property, value); }
+            get { return (SolidColorBrush)GetValue(SwitchColor_Background_Property); }
+            set { SetValue(SwitchColor_Background_Property, value); }
         }
 
+        //public static readonly DependencyProperty SwitchColor_False_Background_Property =
+        //         DependencyProperty.Register("SwitchColor_False_Background", typeof(SolidColorBrush), typeof(Text_ToggleButton),
+        //         new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(150, 150, 150)), null));
+
+        //public SolidColorBrush SwitchColor_False_Background //提供內部binding之相依屬性
+        //{
+        //    get { return (SolidColorBrush)GetValue(SwitchColor_False_Background_Property); }
+        //    set { SetValue(SwitchColor_False_Background_Property, value); }
+        //}
+
+        //public static readonly DependencyProperty SwitchColor_True_Background_Property =
+        //         DependencyProperty.Register("SwitchColor_True_Background", typeof(SolidColorBrush), typeof(Text_ToggleButton),
+        //         new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(25, 86, 97)), null));
+
+        //public SolidColorBrush SwitchColor_True_Background //提供內部binding之相依屬性
+        //{
+        //    get { return (SolidColorBrush)GetValue(SwitchColor_True_Background_Property); }
+        //    set { SetValue(SwitchColor_True_Background_Property, value); }
+        //}
+
         public static readonly DependencyProperty SwitchColor_True_Property =
-                 DependencyProperty.Register("SwitchColor_True", typeof(SolidColorBrush), typeof(UserControl_Mix),
+                 DependencyProperty.Register("SwitchColor_True", typeof(SolidColorBrush), typeof(Text_ToggleButton),
                  new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(255, 255, 255)), null));
 
         public SolidColorBrush SwitchColor_True //提供內部binding之相依屬性
@@ -73,8 +151,8 @@ namespace Wpf_Control_Library
         }
 
         public static readonly DependencyProperty SwitchColor_False_Property =
-                DependencyProperty.Register("SwitchColor_False", typeof(SolidColorBrush), typeof(UserControl_Mix),
-                new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(90, 90, 90)), null));
+                DependencyProperty.Register("SwitchColor_False", typeof(SolidColorBrush), typeof(Text_ToggleButton),
+                new UIPropertyMetadata(new SolidColorBrush(Color.FromRgb(255, 255, 255)), null));
 
         public SolidColorBrush SwitchColor_False //提供內部binding之相依屬性
         {
@@ -95,9 +173,27 @@ namespace Wpf_Control_Library
             set { SetValue(Ischecked_Property, value); }
         }
 
-       
 
-       
+        public static readonly DependencyProperty SwitchCircle_Margin_Property =
+        DependencyProperty.Register("SwitchCircle_Margin", typeof(double), typeof(Text_ToggleButton),
+        new UIPropertyMetadata((double)2));
+
+        public double SwitchCircle_Margin //提供內部binding之相依屬性
+        {
+            get { return (double)GetValue(SwitchCircle_Margin_Property); }
+            set { SetValue(SwitchCircle_Margin_Property, value); }
+        }
+
+
+        public static readonly DependencyProperty SwitchCircle_SubSize_Property =
+       DependencyProperty.Register("SwitchCircle_SubSize", typeof(double), typeof(Text_ToggleButton),
+       new UIPropertyMetadata((double)5));
+
+        public double SwitchCircle_SubSize //提供內部binding之相依屬性
+        {
+            get { return (double)GetValue(SwitchCircle_SubSize_Property); }
+            set { SetValue(SwitchCircle_SubSize_Property, value); }
+        }
 
         //public string txtbox_FontFamily //提供內部binding之相依屬性
         //{

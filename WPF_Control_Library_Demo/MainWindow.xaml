@@ -1,0 +1,33 @@
+﻿<Window x:Class="WPF_Control_Library_Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Wpf_Control_Library;assembly=Wpf_Control_Library"
+        xmlns:local="clr-namespace:WPF_Control_Library_Demo"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <ui:Text_ToggleButton txtbox_content="123" Ischecked="True" 
+                              SwitchCircle_Margin="4" 
+                              SwitchCircle_SubSize="5"
+                              SwitchColor_Background="#FF941C1C"
+                              SwitchColor_False="White"
+                              SwitchColor_True="White" />
+
+    </Grid>
+</Window>

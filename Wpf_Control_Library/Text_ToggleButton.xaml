@@ -11,6 +11,12 @@
              d:DesignWidth="500">
     <UserControl.Resources>
 
+        <local:SwitchMarginConverter x:Key="marginConverter" />
+        
+        <local:SwitchCircleSizeConverter x:Key="sizeConverter" />
+
+        <local:AdjustableMinusConverter x:Key="minusValueConverter" />
+
         <Style x:Key="ButtonFocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -43,20 +49,113 @@
 
         <Style x:Key="SwitchTypeToggleButton_In_SettingPage"
                TargetType="{x:Type ToggleButton}">
-            <Style.Resources>
-                <Color x:Key="Color.Additional.LightGrey">#cfcfcf</Color>
-                <Color x:Key="Color.Additional.MediumGrey">#8c8c8c</Color>
-                <Color x:Key="Color.MedtronicBranding.MedtronicBlue">#004B87</Color>
-                <Color x:Key="Color.MedtronicBranding.CobaltBlue">#0085CA</Color>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Grid>
+                            <Viewbox>
+                                <Grid x:Name="MainRow"
+                                      Height="20">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="10" />
+                                            <ColumnDefinition Width="10" />
+                                        </Grid.ColumnDefinitions>
 
-                <SolidColorBrush x:Key="ToggleButtonFalseBackground"
-                                 Color="{StaticResource Color.Additional.LightGrey}" />
-                <SolidColorBrush x:Key="ToggleButtonFalseForeground"
-                                 Color="{StaticResource Color.Additional.MediumGrey}" />
-                <SolidColorBrush x:Key="ToggleButtonTrueBackground"
-                                 Color="{StaticResource Color.MedtronicBranding.CobaltBlue}" />
-                <SolidColorBrush x:Key="ToggleButtonTrueForeground"
-                                 Color="{StaticResource Color.MedtronicBranding.MedtronicBlue}" />
+                                        <Border x:Name="BackgroundBorder"
+                                                Grid.Column="1"
+                                                Grid.ColumnSpan="2"
+                                                Background="{Binding SwitchColor_True_Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
+
+                                        <Border x:Name="Border_SizeBase"
+                                                Visibility="Collapsed"
+                                                Grid.ColumnSpan="2">
+                                            <Border x:Name="Border_Size1" Margin="2"/>
+                                        </Border>
+
+                                        <Grid Grid.Column="0"
+                                              Grid.ColumnSpan="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition Width="10" />
+                                            </Grid.ColumnDefinitions>
+                                            <!--True: 左邊圓-->
+                                            <Ellipse x:Name="BackgroundEllipse1"
+                                                     Width="{Binding ElementName=BackgroundEllipse1, Path=ActualHeight}"
+                                                     Height="{Binding ElementName=MainRow, Path=ActualHeight}"
+                                                     HorizontalAlignment="Left"
+                                                     Fill="{Binding SwitchColor_True_Background, FallbackValue=#FF5A5A5A, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}"
+                                                     Grid.ColumnSpan="2" />
+                                            <!--False: 右邊圓-->
+                                            <Ellipse x:Name="BackgroundEllipse2"
+                                                     Grid.Column="2"
+                                                     Width="{Binding ActualHeight, ConverterParameter=5, ElementName=BackgroundEllipse2, Mode=OneWay}"
+                                                     Height="{Binding ElementName=MainRow, Path=ActualHeight}"
+                                                     HorizontalAlignment="Right"
+                                                     Fill="{Binding SwitchColor_False_Background, FallbackValue=#FF5A5A5A, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}"
+                                                     Grid.ColumnSpan="2" />
+                                        </Grid>
+
+                                    </Grid>
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition x:Name="AnimationWidth" />
+                                            <ColumnDefinition Width="{Binding ElementName=MainRow, Path=ActualHeight}" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border x:Name="AnimationSizeBorder"
+                                                Grid.Column="0" />
+                                        <!--<ContentControl Grid.Column="0"
+                                                        Style="{StaticResource OnContentControl}" />-->
+                                    </Grid>
+                                    <!--<Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="{Binding ElementName=MainRow, Path=ActualHeight}" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <ContentControl Grid.Column="1"
+                                                        Style="{StaticResource OffContentControl}" />
+                                    </Grid>-->
+                                    <Grid Background="Transparent">
+                                        <StackPanel HorizontalAlignment="Left"
+                                                    Orientation="Horizontal">
+                                            <Border Width="{Binding ElementName=AnimationSizeBorder, Path=ActualWidth}" />
+                                            <!--True: 右邊圓-->
+                                            <Ellipse x:Name="ForegroundEllipse"
+                                                     Width="{Binding ActualHeight, ConverterParameter=6, ElementName=MainRow, Mode=OneWay}"
+                                                     Height="{Binding ActualHeight, ConverterParameter=6, ElementName=MainRow, Mode=OneWay}"
+                                                     HorizontalAlignment="Right"
+                                                     Fill="{Binding SwitchColor_True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Viewbox>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="false">
+                                <Setter TargetName="BackgroundBorder"
+                                        Property="Background"
+                                        Value="{Binding SwitchColor_False_Background, FallbackValue=FF5A5A5A, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
+                                <Setter TargetName="ForegroundEllipse"
+                                        Property="Fill"
+                                        Value="{Binding SwitchColor_False, FallbackValue=FF5A5A5A, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
+                                <Setter TargetName="AnimationSizeBorder"
+                                        Property="Width"
+                                        Value="0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SwitchTypeToggleButton_Type2"
+               TargetType="{x:Type ToggleButton}">
+            <!--<Style.Resources>
                 <Style x:Key="OnContentControl"
                        TargetType="ContentControl">
                     <Setter Property="HorizontalAlignment"
@@ -85,7 +184,7 @@
                             Value="Center" />
                 </Style>
 
-            </Style.Resources>
+            </Style.Resources>-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -93,45 +192,78 @@
                             <Viewbox>
                                 <Grid x:Name="MainRow"
                                       Height="20">
-                                    <Grid>
+                                    
+                                    <!--Background-->
+                                    <Grid Grid.Column="0"
+                                          Grid.ColumnSpan="4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="10" />
                                             <ColumnDefinition Width="10" />
                                             <ColumnDefinition Width="10" />
                                             <ColumnDefinition Width="10" />
                                         </Grid.ColumnDefinitions>
-
+                                        
+                                        <!--中間背景2格-->
                                         <Border x:Name="BackgroundBorder"
                                                 Grid.Column="1"
                                                 Grid.ColumnSpan="2"
-                                                Background="{Binding SwitchColor_True_Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
+                                                Background="{Binding SwitchColor_Background, FallbackValue=#FF5A5A5A, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
 
-                                        <Grid Grid.Column="0"
-                                              Grid.ColumnSpan="4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="10" />
-                                                <ColumnDefinition Width="10" />
-                                                <ColumnDefinition Width="10" />
-                                                <ColumnDefinition Width="10" />
-                                            </Grid.ColumnDefinitions>
+                                        <!--True: 左邊圓-->
+                                        <Ellipse x:Name="BackgroundEllipse1"
+                                                 Width="{Binding ElementName=BackgroundEllipse1, Path=ActualHeight}"
+                                                 Height="{Binding ElementName=MainRow, Path=ActualHeight}"
+                                                 HorizontalAlignment="Left"
+                                                 Fill="{Binding SwitchColor_Background, FallbackValue=#FF5A5A5A, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}"
+                                                 Grid.ColumnSpan="2" />
+                                        <!--False: 右邊圓-->
+                                        <Ellipse x:Name="BackgroundEllipse2"
+                                                 Grid.Column="2"
+                                                 Width="{Binding ActualHeight, ElementName=BackgroundEllipse2, Mode=OneWay}"
+                                                 Height="{Binding ElementName=MainRow, Path=ActualHeight}"
+                                                 HorizontalAlignment="Right"
+                                                 Fill="{Binding SwitchColor_Background, FallbackValue=#FF5A5A5A, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}"
+                                                 Grid.ColumnSpan="2" />
 
-                                            <Ellipse x:Name="BackgroundEllipse1"
-                                                     Width="{Binding ElementName=BackgroundEllipse1, Path=ActualHeight}"
-                                                     Height="{Binding ElementName=MainRow, Path=ActualHeight}"
-                                                     HorizontalAlignment="Left"
-                                                     Fill="{Binding SwitchColor_True_Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}"
-                                                     Grid.ColumnSpan="2" />
-                                            <Ellipse x:Name="BackgroundEllipse2"
-                                                     Grid.Column="2"
-                                                     Width="{Binding ElementName=BackgroundEllipse2, Path=ActualHeight}"
-                                                     Height="{Binding ElementName=MainRow, Path=ActualHeight}"
+
+                                        <!--切換的圓-->
+                                        <Grid Grid.ColumnSpan="4"
+                                              Margin="{Binding SwitchCircle_Margin, FallbackValue=2, Converter={StaticResource marginConverter},
+                                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}">
+                                            <!--<TextBox>
+                                                <TextBox.Text>
+                                                    <MultiBinding Converter="{StaticResource myNameConverter}"
+                                                                  ConverterParameter="FormatLastFirst">
+                                                        <Binding Path="FirstName" />
+                                                        <Binding Path="LastName" />
+                                                    </MultiBinding>
+                                                </TextBox.Text>
+                                            </TextBox>-->
+                                            <Ellipse x:Name="ForegroundEllipse"
                                                      HorizontalAlignment="Right"
-                                                     Fill="{StaticResource ToggleButtonFalseBackground}"
-                                                     Grid.ColumnSpan="2" />
+                                                     Fill="{Binding SwitchColor_True, FallbackValue=#FFFFFF, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}">
+                                                <Ellipse.Width>
+                                                    <MultiBinding Converter="{StaticResource sizeConverter}">
+                                                        <Binding Path="ActualHeight" Mode="OneWay" ElementName="MainRow" />
+                                                        <Binding Path="SwitchCircle_SubSize" FallbackValue="5"
+                                                                 RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}"/>
+                                                    </MultiBinding>
+                                                </Ellipse.Width>
+                                                <Ellipse.Height>
+                                                    <MultiBinding Converter="{StaticResource sizeConverter}">
+                                                        <Binding Path="ActualHeight"
+                                                                 Mode="OneWay"
+                                                                 ElementName="MainRow" />
+                                                        <Binding Path="SwitchCircle_SubSize" FallbackValue="5"
+                                                                 RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}" />
+                                                    </MultiBinding>
+                                                </Ellipse.Height>
+                                            </Ellipse>
                                         </Grid>
-
                                     </Grid>
-                                    <Grid HorizontalAlignment="Stretch">
+
+                                    <!--Foreground-->
+                                    <!--<Grid HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition x:Name="AnimationWidth" />
                                             <ColumnDefinition Width="{Binding ElementName=MainRow, Path=ActualHeight}" />
@@ -140,48 +272,54 @@
                                                 Grid.Column="0" />
                                         <ContentControl Grid.Column="0"
                                                         Style="{StaticResource OnContentControl}" />
-                                    </Grid>
-                                    <Grid HorizontalAlignment="Stretch">
+                                    </Grid>-->
+                                    <!--<Grid HorizontalAlignment="Stretch">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="{Binding ElementName=MainRow, Path=ActualHeight}" />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-
                                         <ContentControl Grid.Column="1"
                                                         Style="{StaticResource OffContentControl}" />
-                                    </Grid>
-                                    <Grid Background="Transparent">
+                                    </Grid>-->
+                                    <!--<Grid Background="Transparent">
                                         <StackPanel HorizontalAlignment="Left"
                                                     Orientation="Horizontal">
                                             <Border Width="{Binding ElementName=AnimationSizeBorder, Path=ActualWidth}" />
+                                            --><!--True: 右邊圓--><!--
                                             <Ellipse x:Name="ForegroundEllipse"
-                                                     Width="{Binding ElementName=MainRow, Path=ActualHeight}"
-                                                     Height="{Binding ElementName=MainRow, Path=ActualHeight}"
+                                                     Width="{Binding ActualHeight, ConverterParameter=5, ElementName=MainRow, Mode=OneWay}"
+                                                     Height="{Binding ActualHeight, ConverterParameter=5, ElementName=MainRow, Mode=OneWay}"
                                                      HorizontalAlignment="Right"
                                                      Fill="{Binding SwitchColor_True, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
                                         </StackPanel>
-                                    </Grid>
+                                    </Grid>-->
+
+                                   
                                 </Grid>
                             </Viewbox>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked"
                                      Value="false">
-                                <Setter TargetName="BackgroundBorder"
+                                <!--<Setter TargetName="BackgroundBorder"
                                         Property="Background"
-                                        Value="{StaticResource ToggleButtonFalseBackground}" />
+                                        Value="{Binding SwitchColor_False_Background, FallbackValue=FF5A5A5A, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />-->
                                 <Setter TargetName="ForegroundEllipse"
                                         Property="Fill"
-                                        Value="{Binding SwitchColor_False, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
-                                <Setter TargetName="AnimationSizeBorder"
+                                        Value="{Binding SwitchColor_False, FallbackValue=#FFFFFF, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}" />
+                                <Setter TargetName="ForegroundEllipse"
+                                        Property="HorizontalAlignment"
+                                        Value="Left" />
+                                <!--<Setter TargetName="AnimationSizeBorder"
                                         Property="Width"
-                                        Value="0" />
+                                        Value="0" />-->
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
     </UserControl.Resources>
 
     <Grid>
@@ -220,8 +358,8 @@
                           Click="ToggleButton_Click_Binding"
                           Checked="ToggleButton_Checked_Binding"
                           Unchecked="ToggleButton_UnChecked_Binding"
-                          IsChecked="{Binding Ischecked, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}"
-                          Style="{DynamicResource SwitchTypeToggleButton_In_SettingPage}"
+                          Style="{DynamicResource SwitchTypeToggleButton_Type2}"
+                          IsChecked="{Binding Ischecked, FallbackValue=False, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Text_ToggleButton}}}"
                           Grid.Row="1" />
         </Grid>
     </Grid>
